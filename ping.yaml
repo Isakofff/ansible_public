@@ -1,0 +1,5 @@
+--- # just simple ping
+- hosts: web
+  gather_facts: no
+  tasks:
+    - ping:
