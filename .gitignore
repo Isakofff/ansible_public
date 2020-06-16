@@ -1,4 +1,6 @@
 /.git/
 /.idea/
+/group_vars/*
 *.retry
 *.project
+hosts
