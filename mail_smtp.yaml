@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Sending an e-mail about new stuff
+      local_action:
+        module: mail
+        host: smtp.zoho.com
+        port: 587
+        secure: starttls
+        username: "{{ MAIL_USER }}"
+        password: "{{ MAIL_PASS }}"
+        to: Anton Isakov <anton.i@scopicsoftware.com>
+        subject: New host From <some_place>
+        body: New stuff has been successfully added to <some_place>
