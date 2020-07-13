@@ -9,6 +9,6 @@
         secure: starttls
         username: "{{ MAIL_USER }}"
         password: "{{ MAIL_PASS }}"
-        to: Anton Isakov <anton.i@scopicsoftware.com>
+        to: Anton Isakov <email>
         subject: New host From <some_place>
         body: New stuff has been successfully added to <some_place>
