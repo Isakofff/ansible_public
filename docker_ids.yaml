@@ -1,0 +1,38 @@
+---
+- name: "Get Docker container IDs"
+  hosts: prod
+  gather_facts: False
+  tasks:
+    - ping:
+    # create 3 containers
+    - name: Create Docker containers
+      docker_container:
+        image: busybox
+        command: sleep 1d
+        name: "busy{{item}}"
+      with_sequence: count=3
+    # add container names to in-memory inventory
+    - name: Add hosts
+      add_host:
+        name: "busy{{ item }}"
+        groups: dockers
+        ansible_connection: docker
+      with_sequence: count=3
+
+    # show group 'dockers'
+    - debug: var=groups['dockers']
+
+    - name: Register container IDs
+      shell: "docker exec -it {{ item }} sh -c 'hostname'"
+      register: echo
+      loop: "{{ groups['dockers'] }}"
+
+    - debug: var=echo
+
+    - name: Show IDs
+      debug:
+        msg: "{{ item.stdout }}"
+      loop: "{{ echo.results }}"
+      loop_control:
+        # When looping over complex data structures, the console output of your task can be enormous. To limit the displayed output, use the label directive with loop_control
+        label: "{{ item.stdout }}"
